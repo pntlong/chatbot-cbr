@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot nhóm 16</title>
+    <script type="text/javascript" src="chatbot.js"></script>
+    <link rel="stylesheet" type="text/css" href="" th:href="@{/css/mystyle.css}">
+</head>
+<body>
+    <div id="container">
+        <div id="screen">
+            <div id="header">Chatbot tư vấn dinh dưỡng trẻ em</div>
+            <div id="messageDisplay">
+
+<!--                <div class="chat botMessage">Nhập tuổi</div>-->
+                <!--<div id="messageContainer">
+                    <div class="chat userMessage">
+                        15 hậ ashfjh asjfhjasf aksfhas
+                    </div>
+                </div> -->
+            </div>
+            <div id="userInput">
+                <input type="text" name="message" id="message" placeholder="Mời bạn nhập">
+                <input type="submit" value="Gửi" id="send" name="send" onclick="responBot()">
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var messageDisplay = document.getElementById("messageDisplay");
+
+            var botMessage = document.createElement("div");
+            botMessage.setAttribute("class", "chat botMessage");
+            botMessage.innerHTML = "Chào mừng bạn đến với chatbot nhóm 16!!!" +
+                "<br>Bấm OK để tiếp tục";
+            messageDisplay.appendChild(botMessage);
+        });
+    </script>
+</body>
+
+</html>
