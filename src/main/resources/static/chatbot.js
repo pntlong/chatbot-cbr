@@ -4,10 +4,11 @@ var question = [
     "Nhập tuổi của bé (Từ 1 - 6 tuổi)",
     "Nhập chiều cao của bé (đơn vị : cm)",
     "Nhập cân nặng của bé (đơn vị : kg)",
-    "Nhập mức độ hoạt động : " +
-    "<br>1. Hoạt động ít hơn 1 tiếng 1 ngày" +
+    "Nhập mức độ hoạt động (Hoạt động thể chât ở cường độ trung bình bao gôm: " +
+    "Thể dục, thể thao, chạy nhảy...) : " +
+    "<br>1. Hoạt động dưới 1 tiếng 1 ngày" +
     "<br>2. Hoạt động từ 1 - 3 tiếng 1 ngày" +
-    "<br>3. Hoạt động nhiều hơn 3 tiếng 1 ngày",
+    "<br>3. Hoạt động trên 3 tiếng 1 ngày",
     "Sai cú pháp !!! Gõ OK để tiếp tục",
     "Bot đang tính toán dữ liệu của bé ...",
     "Nhập OK để tiếp tục tư vấn",
@@ -162,25 +163,32 @@ function checkLevel() {
         infoUser[1] = infoUser[2] / (infoUser[1] * infoUser[1]);
         var sendData = {
             age: infoUser[0],
-            BMI: infoUser[1],
-            level: infoUser[3],
+            bmi: infoUser[1].toFixed(1),
+            activity_level: infoUser[3],
         };
         var sent = JSON.stringify(sendData);
         console.log(sent);
         $.ajax({
             url: "http://localhost:8080/find-solution",
             type: "POST",
-            data: { sent },
+            data:  sent ,
             dataType: "json",
             contentType: "application/json",
             error: function(e) {
                 console.log(e);
             },
-            success: function (reiData) {
-                var reiObj = JSON.parse(reiData);
+            success: function (reiObj) {
                 var botMessage = document.createElement("div");
                 botMessage.setAttribute("class", "chat botMessage");
-                botMessage.innerHTML = reiObj.name;
+                botMessage.innerHTML = `Trạng thái của trẻ: ${reiObj.status} (${sendData["bmi"]})`;
+                messageDisplay.appendChild(botMessage);
+                var botMessage = document.createElement("div");
+                botMessage.setAttribute("class", "chat botMessage");
+                botMessage.innerHTML = reiObj.energy_requirement;
+                messageDisplay.appendChild(botMessage);
+                var botMessage = document.createElement("div");
+                botMessage.setAttribute("class", "chat botMessage");
+                botMessage.innerHTML = "Thực đơn gợi ý: " + reiObj.menu_suggestion;
                 messageDisplay.appendChild(botMessage);
                 var botMessage = document.createElement("div");
                 botMessage.setAttribute("class", "chat botMessage");

@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class UserInfo {
     @Id
     @Column(name = "id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "age")
     @JsonProperty
@@ -73,6 +73,14 @@ public class UserInfo {
 
     public void setActivity_level(int activity_level) {
         this.activity_level = activity_level;
+    }
+
+    public Solution getSolution() {
+        return solution;
+    }
+
+    public void setSolution(Solution solution) {
+        this.solution = solution;
     }
 
     @Override

@@ -26,22 +26,24 @@ public class ChatbotService {
         int activity = userInfo.getActivity_level();
         if (userInfoRepository.findUserInfoByAgeAndBmiAndActivity_level(age, bmi, activity) != null) {
             UserInfo info = userInfoRepository.findUserInfoByAgeAndBmiAndActivity_level(age, bmi, activity);
-            return solutionRepository.findSolutionById(info.getId());
+            return solutionRepository.findSolutionById(info.getSolution().getId());
         } else {
             List<UserInfo> list = userInfoRepository.findAll();
             HashMap<Integer, Float> hashMap = new HashMap<>();
             for (UserInfo i : list) {
-                float ageSimilarity = age <= i.getAge() ? age / i.getAge() : i.getAge() / age;
+                float ageSimilarity = age <= i.getAge() ? (float)age / i.getAge() : (float)i.getAge() / age;
                 float bmiSimilarity = bmi <= i.getBmi() ? bmi / i.getBmi() : i.getBmi() / bmi;
-                float activitySimilarity = activity <= i.getActivity_level() ? activity / i.getActivity_level() : i.getActivity_level() / activity;
-                float similarity = 3 * ageSimilarity + 2 * bmiSimilarity + activitySimilarity;
+                float activitySimilarity = activity <= i.getActivity_level() ? (float) activity / i.getActivity_level() : (float) i.getActivity_level() / activity;
+                float similarity = (3 * ageSimilarity + 2 * bmiSimilarity + activitySimilarity) / 6;
                 hashMap.put(i.getId(), similarity);
             }
             hashMap = sortHashMapByValues(hashMap);
-            System.out.println(hashMap);
-
-            System.out.println(hashMap.keySet().toArray()[hashMap.size()-1]);
-            return solutionRepository.findSolutionById((Integer) hashMap.keySet().toArray()[hashMap.size()-1]);
+            int id = (Integer) hashMap.keySet().toArray()[hashMap.size() - 1];
+            UserInfo oldInfo = userInfoRepository.findUserInfoById(id);
+            Solution solution = solutionRepository.findSolutionById(oldInfo.getSolution().getId());
+            UserInfo newInfo = new UserInfo(userInfo.getAge(), userInfo.getBmi(), userInfo.getActivity_level(), solution);
+//            userInfoRepository.save(newInfo);
+            return solution;
         }
     }
 

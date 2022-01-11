@@ -36,6 +36,10 @@
                 "<br>Bấm OK để tiếp tục";
             messageDisplay.appendChild(botMessage);
         });
+        $("#send").click(function () {
+
+            $("#messageDisplay").stop().animate({ scrollTop: $("#messageDisplay")[0].scrollHeight }, 1000);
+        });
     </script>
 </body>
 

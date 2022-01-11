@@ -10,13 +10,14 @@ import java.util.List;
 
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
-    public UserInfo findAllById(Integer id);
+    public UserInfo findUserInfoById(Integer id);
 
     public List<UserInfo> findAll();
 
     @Query(value = "SELECT * FROM user_info ui " +
             "WHERE :age = ui.age " +
-            "AND :bmi = ui.bmi " +
+            "AND :bmi > ui.bmi - 0.000001 " +
+            "AND :bmi < ui.bmi + 0.000001 " +
             "AND :activity = ui.activity_level",nativeQuery = true)
     public UserInfo findUserInfoByAgeAndBmiAndActivity_level(@Param("age") int age,
                                                              @Param("bmi") float bmi,
