@@ -42,7 +42,7 @@ public class ChatbotService {
             UserInfo oldInfo = userInfoRepository.findUserInfoById(id);
             Solution solution = solutionRepository.findSolutionById(oldInfo.getSolution().getId());
             UserInfo newInfo = new UserInfo(userInfo.getAge(), userInfo.getBmi(), userInfo.getActivity_level(), solution);
-//            userInfoRepository.save(newInfo);
+            userInfoRepository.save(newInfo);
             return solution;
         }
     }
